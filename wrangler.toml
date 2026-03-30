@@ -1,0 +1,11 @@
+name = "fx-workers"
+main = "fx-workers.js"
+compatibility_date = "2025-12-01"
+
+# 可选：根据你的需求改为 workers_dev = true 使用 *.workers.dev
+workers_dev = false
+
+[[kv_namespaces]]
+binding = "CONFIG_KV"
+id = "fb3184876cae4b1ab95025c879a928d3"
+preview_id = "46ff5c1709684603b44b76d53a18af54"
