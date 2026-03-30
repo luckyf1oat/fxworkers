@@ -1,5 +1,5 @@
-name = "fx-workers"
-main = "fx-workers.js"
+name = "fxworkers"
+main = "fxworkers.js"
 compatibility_date = "2025-12-01"
 
 # 可选：根据你的需求改为 workers_dev = true 使用 *.workers.dev

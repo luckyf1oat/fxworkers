@@ -47,7 +47,7 @@ const buildVlWsLink = ({uuid, ip, host, path, name}) => {
 const buildClashProxy = ({uuid, ip, host, path, name}) => {
     const safePath = path.startsWith('/') ? path : `/${path}`;
     return [
-        `  - name: ${yamlQuote(name)}`,
+        '  - name: fxworkers',
         '    type: vless',
         `    server: ${yamlQuote(ip)}`,
         '    port: 443',
@@ -66,7 +66,7 @@ const buildClashProxy = ({uuid, ip, host, path, name}) => {
 const buildClashConfig = (proxies) => {
     const names = proxies.map((p) => `      - ${yamlQuote(p.name)}`).join('\n');
     const proxyBlocks = proxies.map((p) => p.block).join('\n');
-    const mainGroupName = 'fx-workers';
+    const mainGroupName = 'fxworkers';
     return [
         `name: ${yamlQuote(mainGroupName)}`,
         'mixed-port: 7897',
