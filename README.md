@@ -1,6 +1,8 @@
 # fx-workers
+
 感谢zj大佬 感谢zj大佬 感谢zj大佬 感谢zj大佬 感谢zj大佬 感谢zj大佬 感谢zj大佬 感谢zj大佬 感谢zj大佬 感谢zj大佬
-简洁版 Cloudflare Worker（VLESS + 订阅 + 面板）。
+
+Cloudflare Worker（VLESS + 订阅 + 面板）。
 
 ## 功能
 
@@ -25,7 +27,7 @@
 
 ## 部署
 
-### 方式一：GitHub Actions（当前推荐）
+### GitHub Actions
 
 本仓库已内置工作流：`.github/workflows/deploy-worker.yml`。
 
@@ -44,32 +46,9 @@
 1. `node scripts/setup-kv-binding.js CONFIG_KV fxkv`（自动创建/复用 KV 并写入 `wrangler.toml`）
 2. `npx wrangler deploy`
 
-### 方式二：本地部署
-
-1. 安装依赖（如未安装）
-
-```bash
-npm install
-```
-
-2. 确认 `wrangler.toml`
-
-- 入口：`main = "fx-workers.js"`
-- 已绑定 KV：`CONFIG_KV`
-
-3. 部署
-
-```bash
-npx wrangler deploy
-```
-
 ## 使用说明
 
 1. 打开 `/panel`
 2. 首次先设置密码
 3. 登录后填写 UUID（可点“随机”）和自定义 ProxyIP（可空）
 4. 保存后复制“自适应订阅”地址使用
-
----
-
-> 备注：仓库中的 `_worker(2).js` 为旧版本参考文件，当前部署入口是 `fx-workers.js`。
