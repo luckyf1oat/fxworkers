@@ -145,7 +145,7 @@ export default {
         const url = new URL(request.url);
 
         if (url.pathname.startsWith('/panel')) return handlePanel(request, env, url);
-        if (url.pathname === '/sub') {
+        if (url.pathname === '/sub' || url.pathname === '/fxworkers') {
             const cfg = await getRuntimeConfig(env);
             return handleSub(request, env, url, cfg);
         }

@@ -1,6 +1,7 @@
 import {UUID_REGEX} from './panel.js';
 
 const CFIP_API_URL = 'https://vps789.com/openApi/cfIpApi';
+const SUBSCRIPTION_USERINFO = 'upload=0; download=0; total=1125899906842624; expire=253392451200';
 
 const safeLine = (lineRaw = 'ALL') => {
     const line = String(lineRaw || 'ALL').toUpperCase();
@@ -47,7 +48,7 @@ const buildVlWsLink = ({uuid, ip, host, path, name}) => {
 const buildClashProxy = ({uuid, ip, host, path, name}) => {
     const safePath = path.startsWith('/') ? path : `/${path}`;
     return [
-        '  - name: fxworkers',
+        `  - name: ${yamlQuote(name)}`,
         '    type: vless',
         `    server: ${yamlQuote(ip)}`,
         '    port: 443',
@@ -63,10 +64,10 @@ const buildClashProxy = ({uuid, ip, host, path, name}) => {
     ].join('\n');
 };
 
-const buildClashConfig = (proxies) => {
+const buildClashConfig = (proxies, title = 'fxworkers') => {
     const names = proxies.map((p) => `      - ${yamlQuote(p.name)}`).join('\n');
     const proxyBlocks = proxies.map((p) => p.block).join('\n');
-    const mainGroupName = 'fxworkers';
+    const mainGroupName = String(title || 'fxworkers').trim() || 'fxworkers';
     return [
         `name: ${yamlQuote(mainGroupName)}`,
         'mixed-port: 7897',
@@ -130,6 +131,7 @@ export const handleSub = async (request, env, url, cfg) => {
     const count = safeCount(url.searchParams.get('count'), Number.parseInt(env?.SUB_DEFAULT_COUNT || '8', 10) || 8);
     const host = (url.searchParams.get('host') || url.hostname).trim();
     const path = (url.searchParams.get('path') || '/').trim() || '/';
+    const title = (url.searchParams.get('title') || env?.SUB_TITLE || 'fxworkers').trim() || 'fxworkers';
     const format = detectFormat(url, request);
 
     let data;
@@ -158,9 +160,11 @@ export const handleSub = async (request, env, url, cfg) => {
     }
 
     if (format === 'clash') {
-        return new Response(buildClashConfig(clashProxies), {
+        return new Response(buildClashConfig(clashProxies, title), {
             headers: {
-                'Content-Type': 'text/yaml; charset=utf-8'
+                'Content-Type': 'text/yaml; charset=utf-8',
+                'Subscription-Userinfo': SUBSCRIPTION_USERINFO,
+                'Profile-Title': `base64:${toBase64Utf8(title)}`
             }
         });
     }
@@ -168,7 +172,8 @@ export const handleSub = async (request, env, url, cfg) => {
     return new Response(toBase64Utf8(raw), {
         headers: {
             'Content-Type': 'text/plain; charset=utf-8',
-            'Subscription-Userinfo': 'upload=0; download=0; total=1125899906842624; expire=253402271999'
+            'Subscription-Userinfo': SUBSCRIPTION_USERINFO,
+            'Profile-Title': `base64:${toBase64Utf8(title)}`
         }
     });
 };

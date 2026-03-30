@@ -1,5 +1,5 @@
 # fx-workers
-
+感谢zj大佬 感谢zj大佬 感谢zj大佬 感谢zj大佬 感谢zj大佬 感谢zj大佬 感谢zj大佬 感谢zj大佬 感谢zj大佬 感谢zj大佬
 简洁版 Cloudflare Worker（VLESS + 订阅 + 面板）。
 
 ## 功能
